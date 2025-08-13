@@ -8,9 +8,9 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, ArrowRight, Download, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import FinoraLogo from '@/components/FinoraLogo';
-import financeIcons from '@/assets/finance-icons.png';
+import financeIcons from '@/assets/finora-water.svg';
 
 interface FormData {
   // Business Information
@@ -86,7 +86,7 @@ const OnboardingFlow = () => {
     localStorage.setItem('finora-onboarding', JSON.stringify(formData));
   }, [formData]);
 
-  const updateFormData = (field: string, value: any) => {
+  const updateFormData = (field: string, value: string | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -115,16 +115,10 @@ const OnboardingFlow = () => {
     }
   };
 
-  const downloadPDF = () => {
-    // Simplified PDF download - in real implementation, use jsPDF or similar
-    const dataStr = JSON.stringify(formData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'finora-onboarding-responses.json';
-    link.click();
-    URL.revokeObjectURL(url);
+  const continueToLogin = () => {
+    // In real implementation, this would redirect to the dashboard site
+    // For now, using a placeholder "#" as requested
+    window.location.href = "#";
   };
 
   if (isComplete) {
@@ -170,11 +164,10 @@ const OnboardingFlow = () => {
               transition={{ delay: 0.9, duration: 0.5 }}
             >
               <Button 
-                onClick={downloadPDF}
+                onClick={continueToLogin}
                 className="bg-gradient-accent hover:opacity-90 shadow-button"
               >
-                <Download className="w-4 h-4 mr-2" />
-                Download Your Responses
+                Continue to Login
               </Button>
             </motion.div>
           </Card>
@@ -207,7 +200,7 @@ const OnboardingFlow = () => {
               <FinoraLogo />
               <div>
                 <p className="text-sm font-medium text-foreground/60">
-                  Smarter Decisions. Stronger Growth.
+                 The Virtual CFO
                 </p>
               </div>
             </div>
@@ -269,7 +262,7 @@ const OnboardingFlow = () => {
                           <SelectTrigger>
                             <SelectValue placeholder="Select business type" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-white border border-gray-200 shadow-lg">
                             <SelectItem value="llc">LLC</SelectItem>
                             <SelectItem value="corporation">Corporation</SelectItem>
                             <SelectItem value="partnership">Partnership</SelectItem>
